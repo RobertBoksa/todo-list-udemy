@@ -38,7 +38,8 @@ export class AppComponent {
         date: new Date().toDateString()
       };
       }, 500);
-    }  
+      this.sortTasks();
+    }
 
     clearTasks() {
       this.tasks = [];
@@ -58,10 +59,26 @@ export class AppComponent {
       this.tasks.push(task);
       this.taskName = '';
       this.taskDate = '';
+      this.sortTasks();
     }
 
     switchEditMode(){
       this.editMode = !this.editMode;
+    }
+
+    markTaskAsDone(task: Task){
+      task.done = true;
+      this.sortTasks();
+    }
+
+    deleteTask(task: Task){
+      this.tasks = this.tasks.filter(e => e !== task);
+      this.sortTasks();
+    }
+
+    private sortTasks(){
+        this.tasks = this.tasks.sort((a: Task, b:Task) => 
+        a.done === b.done ? 0 : a.done ? 1 : -1);
     }
 
 }
